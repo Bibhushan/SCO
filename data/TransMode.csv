@@ -1,0 +1,4 @@
+Name,RateType,Capacity,MaxInstances,Instances
+LTL,Less Than Truck Load,NA,NA,
+FTL,Full Truck Load,1000,,
+,,,,

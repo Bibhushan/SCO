@@ -1,0 +1,7 @@
+BOMName,Product,Type,Quantity,BOMUsage
+Make_A,A,Output,1,
+Make_B,B,Output,1,
+Make_A,a1,Input,0.5,
+Make_B,b1,Input,0.75,
+Make_a1,a1,Output,1,
+Make_b1,b1,Output,1,

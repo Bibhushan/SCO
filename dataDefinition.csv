@@ -1,0 +1,9 @@
+TableName,FieldName,FieldType,DataType,DefaultValue
+FileSources,TableName,PK,String,
+FileSources,FileName,PK,String,
+ModelSettings,SettingID,PK,String,
+ModelSettings,HoldingCost,Input,Numeric,0
+ModelSettings,DaysInYear,Input,Numeric,365
+ModelSettings,StartDate,Input,Date,
+ModelSettings,EndDate,Input,Date,
+ModelSettings,NetworkProfit,Output,Numeric,0

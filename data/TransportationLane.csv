@@ -1,0 +1,12 @@
+Origin,Destination,Mode,TransportRate,Flow
+DC_1,Cust_1,LTL,0.1,
+DC_1,Cust_2,LTL,0.1,
+DC_2,Cust_2,LTL,0.1,
+DC_2,Cust_1,LTL,0.1,
+MFG_1,DC_1,FTL,50,
+MFG_1,Cust_1,FTL,50,
+MFG_1,DC_2,FTL,50,
+MFG_1,DC_1,LTL,0.1,
+MFG_1,DC_2,LTL,0.1,
+Supplier_a1,MFG_1,LTL,0.1,
+Supplier_b1,MFG_1,LTL,0.1,
