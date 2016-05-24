@@ -2,7 +2,8 @@
 # Checks primary key data of a field. 
 # Returns number of errors found
 
-checkPrimaryKeyFields <- function(x, tableName, fieldName, logFile = NULL){
+checkPrimaryKeyFields <- function(x, tableName, fieldName, 
+                                  logFile = NULL, logDepth = 0){
   
   result <- 0
   

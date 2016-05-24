@@ -9,7 +9,9 @@
 # tableName: name of the table for error reporting purpose
 # logFile: file connection where errors will be appended
 
-matchFieldNames <- function(table, fieldNames, tableName, logFile, logDepth = 0){
+matchFieldNames <- function(table, fieldNames, keyFields = NULL, tableName, logFile, logDepth = 0){
+  
+  result <- list(Errors = 0, Warnings = 0, Table = table)
   
   tbl<- table(fieldNames)
   
@@ -24,6 +26,8 @@ matchFieldNames <- function(table, fieldNames, tableName, logFile, logDepth = 0)
     writeToLog(message = msg, type = 'Warning', fileConxn = logFile, 
                printToConsole = T, depth = logDepth)
     
+    result$Warnings <- result$Warnings + 1
+    
     fieldNames <- names(tbl)
     
   }
@@ -34,16 +38,120 @@ matchFieldNames <- function(table, fieldNames, tableName, logFile, logDepth = 0)
   
   tempCols <- which(!fieldNames %in% tableFields)
   
-  tempColCount <- length(tempCol)
+  tempColCount <- length(tempCols)
   
-  if (length(tempCols) > 0){
+  if (tempColCount > 0){
     
-    msg <- paste('Fields present in file definitions but not present in data table:', 
-                 paste0(fieldNames[tempCols]))
+    # Check if the missing fields are key fields
     
-    writeToLog(message = msg,type = 'Warning', fileConxn = logFile, 
-               printToConsole = T, depth = logDepth)
+    missingFields <- fieldNames[tempCols]
+    
+    missingKeyFields <- which(missingFields %in% keyFields)
+    
+    missingKeyFieldCount <- length(missingKeyFields)
+    
+    if (missingKeyFieldCount > 0){
+      
+      msg <- paste('One or more key fields are missing in the data table:', 
+                   paste0(missingKeyFields, collapse = ', '), '.')
+      
+      writeToLog(message = msg, type = 'Error', fileConxn = logFile, 
+                 printToConsole = T, depth = logDepth)
+      
+      result$Errors <- result$Errors + missingKeyFieldCount
+      
+    }
+    
+    missingFields <- missingFields[!missingFields %in% missingKeyFields]
+    
+    missingFieldCount <- length(missingFields)
+    
+    if (missingFieldCount > 0){
+    
+      msg <- paste('There are fields present in field definitions but not present in data table:', 
+                   paste0(fieldNames[tempCols], collapse = ', '), '.')
+      
+      writeToLog(message = msg,type = 'Warning', fileConxn = logFile, 
+                 printToConsole = T, depth = logDepth)
+      
+      result$Warnings <- result$Warnings + missingFieldCount
+      
+    }
     
   }
+  
+  #find fields in data table but not in the field definitions.
+  
+  tempCols <- which(!tableFields %in% fieldNames)
+  
+  tempCount <- length(tempCols)
+  
+  if(tempCount >0){
+    
+<<<<<<< HEAD
+=======
+    # Check if the missing fields are key fields
+    
+    missingFields <- fieldNames[tempCols]
+    
+    missingKeyFields <- which(missingFields %in% keyFields)
+    
+    missingKeyFieldCount <- length(missingKeyFields)
+    
+    if (missingKeyFieldCount > 0){
+      
+      msg <- paste('One or more key fields are missing in the data table:', 
+                   paste0(missingKeyFields, collapse = ', '), '.')
+      
+      writeToLog(message = msg, type = 'Error', fileConxn = logFile, 
+                 printToConsole = T, depth = logDepth)
+      
+      result$Errors <- result$Errors + missingKeyFieldCount
+      
+    }
+    
+    missingFields <- missingFields[!missingFields %in% missingKeyFields]
+    
+    missingFieldCount <- length(missingFields)
+    
+    if (missingFieldCount > 0){
+    
+      msg <- paste('There are fields present in field definitions but not present in data table:', 
+                   paste0(fieldNames[tempCols], collapse = ', '), '.')
+      
+      writeToLog(message = msg,type = 'Warning', fileConxn = logFile, 
+                 printToConsole = T, depth = logDepth)
+      
+      result$Warnings <- result$Warnings + missingFieldCount
+      
+    }
+    
+  }
+  
+  #find fields in data table but not in the field definitions.
+  
+  tempCols <- which(!tableFields %in% fieldNames)
+  
+  tempCount <- length(tempCols)
+  
+  if(tempCount >0){
+    
+>>>>>>> c5e5327653cc8d56148ff54d2f834fc741a437a0
+    msg <- paste('There are fields present in data table with no field definition:', 
+              paste0(tableFields[tempCols], collapse=', '), 
+              '. Only fields present in data field definitions will be used.')
+    
+    writeToLog(message = msg, type = 'Warning', fileConxn = logFile, 
+               printToConsole = T, depth = logDepth)
+    
+    tempCols <- which(tableFields %in% fieldNames)
+    
+    result$Table <- result$Table[, tempCols]
+    
+    result$Warnings = result$Warnings + tempCount
+    
+  }
+  
+  return(result)
   
 }

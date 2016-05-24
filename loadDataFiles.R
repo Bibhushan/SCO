@@ -1,4 +1,11 @@
 
+source('readTableFromSource.R')
+source('writeToLog.R')
+source('matchFieldNames.R')
+source('getKeyFields.R')
+source('checkPrimaryKeyFields.R')
+source('runGenericTableChecks.R')
+
 log <- file('log.txt')
 
 errorLog <- file('ErrorLog.txt')
@@ -19,6 +26,8 @@ transModes <- readTableFromSource('TransMode', fileSources)
 
 modelSettings <- readTableFromSource('ModelSettings', fileSources)
 
+boms <- readTableFromSource('BOM', fileSources)
+
 processes <- readTableFromSource('Process', fileSources)
 
 prodFac <- readTableFromSource('ProductAtFacility', fileSources)
@@ -33,5 +42,5 @@ demands <- readTableFromSource('Demand', fileSources)
 
 dataDefinition <- read.csv('dataDefinition.csv', stringsAsFactors = F)
 
-close(log)
-close(errorLog)
+# close(log)
+# close(errorLog)
