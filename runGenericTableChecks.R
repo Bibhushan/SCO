@@ -3,60 +3,100 @@
 #dataDefinitions is a data frame with following field: tableName, fielName,
 #fieldType, dataType, defaultValue, minValue and maxValue.
 
-# This function returns a list with two objects: hasErrors, which returns the number
-# of errors found and table, which returns the table data modified based on the 
-# data definitions.
+# This function returns a list with three objects: Errors, which returns the number
+# of errors found, Warnings, which counts the number of warnings and table, 
+# which returns the table data modified based on the data definitions.
 
-runGenericTableChecks <- function(table, tableName, dataDefinition, logFile = NULL){
+runGenericTableChecks <- function(table, tableName, dataDefinition, 
+                                  logFile = NULL, logDepth = 0){
   
   msg <- paste('\nRunning generic checks on', tableName, 'table...')
   
-  writeToLog(msg, type = 'Message', fileConxn = logFile, printToConsole = T)
+  writeToLog(msg, type = 'Message', fileConxn = logFile, printToConsole = T, logDepth)
   
-  hasError <- 0
-  
-  result <- list(Errors = hasError, Table = table)
+  result <- list(Errors = 0, Warnings = 0, Table = table)
   
   tableDef <- dataDefinition[dataDefinition$TableName == tableName,]
   
   defCount <- nrow(tableDef)
   
   #exit if no field definitions are found 
-  
+
   if (defCount == 0){
     
-    cat(paste('No field definitions found for table', tableName))
+    msg <- paste('No field definitions found for table', tableName)
+    
+    writeToLog(message = msg, type = 'Error', fileConxn = logFile, 
+               printToConsole = T, depth = logDepth)
     
     result$Errors = 1
     
   } else {
   
-    # Make sure that the field names defined in the data definitions are unique.
+    # Perform basic field checks on the fields in data table and 
     
+    keyFields <- getKeyFields(tableDef$FieldName, tableDef$FieldType) 
     
-    # Check if the fields defined in data definition are present in the data
+    res <- matchFieldNames(table, tableDef$FieldNames, keyFields, tableName, 
+                           logFile, logDepth + 1)
     
+    result$Errors = result$Errors + res$Errors
+    result$Warnings = result$Warnings + res$Warnings
     
+    if (res$Errors == 0) result$Table <- res$Table
+        
+    # check field type of data
+    # convert to respective types if needed.
     
-    for (row in 1:defCount){
+    fieldNames <- names(result$Table)
+    
+    for (field in fieldNames){
       
-      fieldType <- tolower(tableDef$fieldType[row])
+      fieldType <- tolower(tableDef$FieldType[tableDef$FieldName == field])
+      
+      fieldClass <- class(result$Table[, field])
       
       if (fieldType == 'string'){
         
-        if (!class(table[, row]) == 'character'){
+        if (!fieldClass == 'character'){
           
-          msg <- paste('Data type of', )
+          msg <- paste('Data type of', field, 'in', tableName, 'is', fieldClass,
+                       '. Converting to expected field type String.')
           
-          writeToLog()
+          writeToLog(message = msg,type = 'Warning', fileConxn = logFile,
+                     printToConsole = F,depth = logDepth + 1)
+          
+          result$Table[, field] <- as.character(result$Table[, field])
           
         }
         
       } else if (fieldType == 'numeric'){
         
+        if (!fieldClass == 'numeric'){
+          
+          msg <- paste('Data type of', field, 'in', tableName, 'is', fieldClass,
+                       '. Converting to expected field type Numeric.')
+          
+          writeToLog(message = msg,type = 'Warning', fileConxn = logFile,
+                     printToConsole = F,depth = logDepth + 1)
+          
+          result$Table[, field] <- as.numeric(result$Table[, field])
+          
+        }
         
       } else if (fieldType == 'date') {
         
+        if (!fieldClass %in% c('POSIXct', 'POSIXt')){
+          
+          msg <- paste('Data type of', field, 'in', tableName, 'is', fieldClass,
+                       '. Converting to expected field type Date.')
+          
+          writeToLog(message = msg,type = 'Warning', fileConxn = logFile,
+                     printToConsole = F,depth = logDepth + 1)
+          
+          result$Table[, field] <- as.numeric(result$Table[, field])
+          
+        }
         
       } else if (fieldType == 'boolean'){
         

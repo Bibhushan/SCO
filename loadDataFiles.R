@@ -1,4 +1,9 @@
 
+source('readTableFromSource.R')
+source('writeToLog.R')
+source('matchFieldNames.R')
+source('getKeyFields.R')
+
 log <- file('log.txt')
 
 errorLog <- file('ErrorLog.txt')
