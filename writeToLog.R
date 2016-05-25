@@ -5,6 +5,8 @@
 # printToConsole: used to additionally print the output to console.
 # depth: depth of the log
 
+# Edit: fileConxn was not working. Using file name instead
+
 writeToLog <- function(message, type = 'Message', fileConxn, 
                        printToConsole = T, depth=0){
   
@@ -13,6 +15,8 @@ writeToLog <- function(message, type = 'Message', fileConxn,
   
   if (printToConsole) cat(msg)
   
-  writeLines(msg, fileConxn)
+  #writeLines(msg, fileConxn)
+  
+  cat(msg, file = fileConxn, append = T)
   
 }

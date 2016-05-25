@@ -94,6 +94,7 @@ matchFieldNames <- function(table, fieldNames, keyFields = NULL, tableName, logF
     
     missingFields <- fieldNames[tempCols]
     
+<<<<<<< HEAD
     missingKeyFields <- which(missingFields %in% keyFields)
     
     missingKeyFieldCount <- length(missingKeyFields)
@@ -141,6 +142,58 @@ matchFieldNames <- function(table, fieldNames, keyFields = NULL, tableName, logF
               paste0(tableFields[tempCols], collapse=', '), 
               '. Only fields present in data field definitions will be used.')
     
+=======
+    # Check if the missing fields are key fields
+    
+    missingFields <- fieldNames[tempCols]
+    
+    missingKeyFields <- which(missingFields %in% keyFields)
+    
+    missingKeyFieldCount <- length(missingKeyFields)
+    
+    if (missingKeyFieldCount > 0){
+      
+      msg <- paste('One or more key fields are missing in the data table:', 
+                   paste0(missingKeyFields, collapse = ', '), '.')
+      
+      writeToLog(message = msg, type = 'Error', fileConxn = logFile, 
+                 printToConsole = T, depth = logDepth)
+      
+      result$Errors <- result$Errors + missingKeyFieldCount
+      
+    }
+    
+    missingFields <- missingFields[!missingFields %in% missingKeyFields]
+    
+    missingFieldCount <- length(missingFields)
+    
+    if (missingFieldCount > 0){
+    
+      msg <- paste('There are fields present in field definitions but not present in data table:', 
+                   paste0(fieldNames[tempCols], collapse = ', '), '.')
+      
+      writeToLog(message = msg,type = 'Warning', fileConxn = logFile, 
+                 printToConsole = T, depth = logDepth)
+      
+      result$Warnings <- result$Warnings + missingFieldCount
+      
+    }
+    
+  }
+  
+  #find fields in data table but not in the field definitions.
+  
+  tempCols <- which(!tableFields %in% fieldNames)
+  
+  tempCount <- length(tempCols)
+  
+  if(tempCount >0){
+    
+    msg <- paste('There are fields present in data table with no field definition:', 
+              paste0(tableFields[tempCols], collapse=', '), 
+              '. Only fields present in data field definitions will be used.')
+    
+>>>>>>> c5e5327653cc8d56148ff54d2f834fc741a437a0
     writeToLog(message = msg, type = 'Warning', fileConxn = logFile, 
                printToConsole = T, depth = logDepth)
     

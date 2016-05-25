@@ -6,9 +6,9 @@ source('getKeyFields.R')
 source('checkPrimaryKeyFields.R')
 source('runGenericTableChecks.R')
 
-log <- file('log.txt')
+log <- 'log.txt'
 
-errorLog <- file('ErrorLog.txt')
+errorLog <- 'ErrorLog.txt'
 
 cat('\nReading data file sources...')
 
