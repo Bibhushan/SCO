@@ -19,8 +19,8 @@ matchFieldNames <- function(table, fieldNames, keyFields = NULL, tableName, logF
   
   if (length(fieldNames) > length(tbl)){
     
-    msg <- paste('Duplicate field definitions found for ', 
-                 paste0(names(tbl)[tbl>1]), 'in table', tableName,
+    msg <- paste0('Duplicate field definitions found for ', 
+                 paste0(names(tbl)[tbl>1]), ' in table ', tableName,
                  '. Only one of the field definitions will be checked.')
     
     writeToLog(message = msg, type = 'Warning', fileConxn = logFile, 
@@ -52,8 +52,9 @@ matchFieldNames <- function(table, fieldNames, keyFields = NULL, tableName, logF
     
     if (missingKeyFieldCount > 0){
       
-      msg <- paste('One or more key fields are missing in the data table:', 
-                   paste0(missingKeyFields, collapse = ', '), '.')
+      msg <- paste0(missingKeyFieldCount, 
+                    ' key fields are missing in the data table: ', 
+                    paste0(missingKeyFields, collapse = ', '), '.')
       
       writeToLog(message = msg, type = 'Error', fileConxn = logFile, 
                  printToConsole = T, depth = logDepth)
@@ -68,7 +69,7 @@ matchFieldNames <- function(table, fieldNames, keyFields = NULL, tableName, logF
     
     if (missingFieldCount > 0){
     
-      msg <- paste('There are fields present in field definitions but not present in data table:', 
+      msg <- paste0('There are fields present in field definitions but not present in data table: ', 
                    paste0(fieldNames[tempCols], collapse = ', '), '.')
       
       writeToLog(message = msg,type = 'Warning', fileConxn = logFile, 
@@ -82,26 +83,20 @@ matchFieldNames <- function(table, fieldNames, keyFields = NULL, tableName, logF
   
   #find fields in data table but not in the field definitions.
   
-  tempCols <- which(!tableFields %in% fieldNames)
+  missingFields <- tableFields[!tableFields %in% fieldNames]
   
-  tempCount <- length(tempCols)
+  tempCount <- length(missingFields)
   
   if(tempCount >0){
     
-<<<<<<< HEAD
-=======
-    # Check if the missing fields are key fields
-    
-    missingFields <- fieldNames[tempCols]
-    
-<<<<<<< HEAD
     missingKeyFields <- which(missingFields %in% keyFields)
     
     missingKeyFieldCount <- length(missingKeyFields)
     
     if (missingKeyFieldCount > 0){
       
-      msg <- paste('One or more key fields are missing in the data table:', 
+      msg <- paste0(missingKeyFieldCount, 
+                    ' key fields are missing in the data table:', 
                    paste0(missingKeyFields, collapse = ', '), '.')
       
       writeToLog(message = msg, type = 'Error', fileConxn = logFile, 
@@ -117,7 +112,8 @@ matchFieldNames <- function(table, fieldNames, keyFields = NULL, tableName, logF
     
     if (missingFieldCount > 0){
     
-      msg <- paste('There are fields present in field definitions but not present in data table:', 
+      msg <- paste0(missingFieldCount, 
+                    ' fields present in field definitions but not present in data table:', 
                    paste0(fieldNames[tempCols], collapse = ', '), '.')
       
       writeToLog(message = msg,type = 'Warning', fileConxn = logFile, 
@@ -137,12 +133,10 @@ matchFieldNames <- function(table, fieldNames, keyFields = NULL, tableName, logF
   
   if(tempCount >0){
     
->>>>>>> c5e5327653cc8d56148ff54d2f834fc741a437a0
-    msg <- paste('There are fields present in data table with no field definition:', 
+    msg <- paste0(tempCount, ' fields are present in data table with no field definition:', 
               paste0(tableFields[tempCols], collapse=', '), 
               '. Only fields present in data field definitions will be used.')
     
-=======
     # Check if the missing fields are key fields
     
     missingFields <- fieldNames[tempCols]
@@ -153,7 +147,8 @@ matchFieldNames <- function(table, fieldNames, keyFields = NULL, tableName, logF
     
     if (missingKeyFieldCount > 0){
       
-      msg <- paste('One or more key fields are missing in the data table:', 
+      msg <- paste0(missingKeyFieldCount, 
+                    ' key fields are missing in the data table:', 
                    paste0(missingKeyFields, collapse = ', '), '.')
       
       writeToLog(message = msg, type = 'Error', fileConxn = logFile, 
@@ -169,7 +164,8 @@ matchFieldNames <- function(table, fieldNames, keyFields = NULL, tableName, logF
     
     if (missingFieldCount > 0){
     
-      msg <- paste('There are fields present in field definitions but not present in data table:', 
+      msg <- paste0(missingFieldCount, 
+                    ' fields present in field definitions but not present in data table:', 
                    paste0(fieldNames[tempCols], collapse = ', '), '.')
       
       writeToLog(message = msg,type = 'Warning', fileConxn = logFile, 
@@ -189,11 +185,11 @@ matchFieldNames <- function(table, fieldNames, keyFields = NULL, tableName, logF
   
   if(tempCount >0){
     
-    msg <- paste('There are fields present in data table with no field definition:', 
-              paste0(tableFields[tempCols], collapse=', '), 
-              '. Only fields present in data field definitions will be used.')
+    msg <- paste0(tempCount, 
+                  ' fields present in data table with no field definition:', 
+                  paste0(tableFields[tempCols], collapse=', '), 
+                  '. Only fields present in data field definitions will be used.')
     
->>>>>>> c5e5327653cc8d56148ff54d2f834fc741a437a0
     writeToLog(message = msg, type = 'Warning', fileConxn = logFile, 
                printToConsole = T, depth = logDepth)
     

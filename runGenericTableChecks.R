@@ -24,36 +24,20 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
 
   if (defCount == 0){
     
-    msg <- paste('No field definitions found for table', tableName)
+    msg <- paste0('No field definitions found for table', tableName, '.')
     
     writeToLog(message = msg, type = 'Error', fileConxn = logFile, 
-<<<<<<< HEAD
-<<<<<<< HEAD
-               printToConsole = T, depth = logDepth + 1)
-=======
                printToConsole = T, depth = logDepth)
->>>>>>> c5e5327653cc8d56148ff54d2f834fc741a437a0
-=======
-               printToConsole = T, depth = logDepth)
->>>>>>> c5e5327653cc8d56148ff54d2f834fc741a437a0
-    
+
     result$Errors = 1
     
   } else {
   
     # Perform basic field checks on the fields in data table and 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    
+
     keyFields <- getKeyFields(tableDef$FieldName, tableDef$FieldType) 
     
     res <- matchFieldNames(table, tableDef$FieldName, keyFields, tableName, 
-=======
-    
-    keyFields <- getKeyFields(tableDef$FieldName, tableDef$FieldType) 
-    
-    res <- matchFieldNames(table, tableDef$FieldNames, keyFields, tableName, 
->>>>>>> c5e5327653cc8d56148ff54d2f834fc741a437a0
                            logFile, logDepth + 1)
     
     result$Errors = result$Errors + res$Errors
@@ -63,76 +47,25 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
         
     # check field type of data
     # convert to respective types if needed.
-<<<<<<< HEAD
-    
+
     fieldNames <- names(result$Table)
     
     for (field in fieldNames){
       
       fieldType <- tolower(tableDef$DataType[tableDef$FieldName == field])
-=======
-    
-    keyFields <- getKeyFields(tableDef$FieldName, tableDef$FieldType) 
-    
-    res <- matchFieldNames(table, tableDef$FieldNames, keyFields, tableName, 
-                           logFile, logDepth + 1)
-    
-    result$Errors = result$Errors + res$Errors
-    result$Warnings = result$Warnings + res$Warnings
-    
-    if (res$Errors == 0) result$Table <- res$Table
-        
-    # check field type of data
-    # convert to respective types if needed.
-    
-    fieldNames <- names(result$Table)
-    
-    for (field in fieldNames){
-      
-      fieldType <- tolower(tableDef$FieldType[tableDef$FieldName == field])
->>>>>>> c5e5327653cc8d56148ff54d2f834fc741a437a0
-      
-=======
-    
-    fieldNames <- names(result$Table)
-    
-    for (field in fieldNames){
-      
-      fieldType <- tolower(tableDef$FieldType[tableDef$FieldName == field])
-      
->>>>>>> c5e5327653cc8d56148ff54d2f834fc741a437a0
+
       fieldClass <- class(result$Table[, field])
       
       if (fieldType == 'string'){
         
         if (!fieldClass == 'character'){
-<<<<<<< HEAD
-<<<<<<< HEAD
-          
-          msg <- paste('Data type of', field, 'in', tableName, 'is', fieldClass,
+
+          msg <- paste0('Data type of ', field, ' in ', tableName, ' is ', fieldClass,
                        '. Converting to expected field type String.')
           
           writeToLog(message = msg,type = 'Warning', fileConxn = logFile,
                      printToConsole = F,depth = logDepth + 1)
           
-=======
-          
-          msg <- paste('Data type of', field, 'in', tableName, 'is', fieldClass,
-                       '. Converting to expected field type String.')
-          
-          writeToLog(message = msg,type = 'Warning', fileConxn = logFile,
-                     printToConsole = F,depth = logDepth + 1)
-          
->>>>>>> c5e5327653cc8d56148ff54d2f834fc741a437a0
-=======
-          
-          msg <- paste('Data type of', field, 'in', tableName, 'is', fieldClass,
-                       '. Converting to expected field type String.')
-          
-          writeToLog(message = msg,type = 'Warning', fileConxn = logFile,
-                     printToConsole = F,depth = logDepth + 1)
-          
->>>>>>> c5e5327653cc8d56148ff54d2f834fc741a437a0
           result$Table[, field] <- as.character(result$Table[, field])
           
         }
@@ -141,20 +74,14 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
         
         if (!fieldClass == 'numeric'){
           
-          msg <- paste('Data type of', field, 'in', tableName, 'is', fieldClass,
-                       '. Converting to expected field type Numeric.')
+          msg <- paste0('Data type of ', field, ' in ', tableName, ' is ', 
+                        fieldClass, '. Converting to expected field type Numeric.')
           
           writeToLog(message = msg,type = 'Warning', fileConxn = logFile,
                      printToConsole = F,depth = logDepth + 1)
           
-<<<<<<< HEAD
-<<<<<<< HEAD
           result$Warnings <- result$Warnings + 1
           
-=======
->>>>>>> c5e5327653cc8d56148ff54d2f834fc741a437a0
-=======
->>>>>>> c5e5327653cc8d56148ff54d2f834fc741a437a0
           result$Table[, field] <- as.numeric(result$Table[, field])
           
         }
@@ -163,27 +90,18 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
         
         if (!fieldClass %in% c('POSIXct', 'POSIXt')){
           
-          msg <- paste('Data type of', field, 'in', tableName, 'is', fieldClass,
-                       '. Converting to expected field type Date.')
+          msg <- paste0('Data type of ', field, ' in ', tableName, ' is ', 
+                        fieldClass, '. Converting to expected field type Date.')
           
           writeToLog(message = msg,type = 'Warning', fileConxn = logFile,
                      printToConsole = F,depth = logDepth + 1)
           
-<<<<<<< HEAD
-<<<<<<< HEAD
           result$Warnings <- result$Warnings + 1
           
           # currently only dd/mm/yyyy format is supported
           
           result$Table[, field] <- as.POSIXct(as.Date(result$Table[, field],
                                                       '%d/%m/%Y'))
-=======
-          result$Table[, field] <- as.numeric(result$Table[, field])
->>>>>>> c5e5327653cc8d56148ff54d2f834fc741a437a0
-=======
-          result$Table[, field] <- as.numeric(result$Table[, field])
->>>>>>> c5e5327653cc8d56148ff54d2f834fc741a437a0
-          
         }
         
       } else if (fieldType == 'boolean'){
@@ -200,8 +118,8 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
           
           if(invalidRowCount > 0){
            
-            msg <- paste(invalidRowCount, 'invalid rows found in', field, 
-                         'field for table', tableName, 
+            msg <- paste0(invalidRowCount, ' invalid rows found in ', field, 
+                         ' field for table ', tableName, 
                          '. Replacing them with default values.')
             
             writeToLog(message = msg, type = 'Warning', fileConxn = logFile, 
@@ -231,9 +149,10 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
           
           if (invalidRowCount > 0) {
             
-            msg <- paste(invalidRowCount, 'values in', field, 'field of table',
-                         tableName, 'could not be identified as valid boolean fields.',
-                         'They will be converted to default value of false')
+            msg <- paste0(invalidRowCount, ' values in ', field, 
+                          ' field of table ', tableName, 
+                          ' could not be identified as valid boolean fields.',
+                          ' They will be converted to default value of false.')
             
             writeToLog(message = msg, type = 'Warning', fileConxn = logFile, 
                        printToConsole = F, depth = logDepth + 1)
@@ -252,8 +171,8 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
         
       } else {
        
-        msg <- paste('Invalid data type', tableDef$DataType[row], 'for field', 
-                     tableDef$FieldName[row], 'in table', tableName, '.')
+        msg <- paste0('Invalid data type ', tableDef$DataType[row], ' for field ', 
+                     tableDef$FieldName[row], ' in table ', tableName, '.')
         
         writeToLog(message = msg,type = 'Error', 
                    fileConxn = logFile, printToConsole = T, logDepth + 1) 
