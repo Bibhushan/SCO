@@ -10,6 +10,9 @@ log <- 'log.txt'
 
 errorLog <- 'ErrorLog.txt'
 
+cat(paste(Sys.time(), 'Started loading data', sep = ': '), 
+    file = 'ErrorLog.txt', append = F)
+
 cat('\nReading data file sources...')
 
 fileSources <- read.csv('fileSources.csv', stringsAsFactors = F)

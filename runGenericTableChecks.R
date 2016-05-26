@@ -60,8 +60,9 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
         
         if (!fieldClass == 'character'){
 
-          msg <- paste0('Data type of ', field, ' in ', tableName, ' is ', fieldClass,
-                       '. Converting to expected field type String.')
+          msg <- paste0('Data type of ', field, ' field in ', tableName, 
+                        ' table is ', fieldClass,
+                        '. Converting to expected field type String.')
           
           writeToLog(message = msg,type = 'Warning', fileConxn = logFile,
                      printToConsole = F,depth = logDepth + 1)
@@ -72,10 +73,11 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
         
       } else if (fieldType == 'numeric'){
         
-        if (!fieldClass == 'numeric'){
+        if (!fieldClass %in% c('numeric', 'integer')){
           
-          msg <- paste0('Data type of ', field, ' in ', tableName, ' is ', 
-                        fieldClass, '. Converting to expected field type Numeric.')
+          msg <- paste0('Data type of ', field, ' field in ', tableName, 
+                        ' table is ', fieldClass, 
+                        '. Converting to expected field type Numeric.')
           
           writeToLog(message = msg,type = 'Warning', fileConxn = logFile,
                      printToConsole = F,depth = logDepth + 1)
@@ -90,8 +92,9 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
         
         if (!fieldClass %in% c('POSIXct', 'POSIXt')){
           
-          msg <- paste0('Data type of ', field, ' in ', tableName, ' is ', 
-                        fieldClass, '. Converting to expected field type Date.')
+          msg <- paste0('Data type of ', field, ' field in ', tableName, 
+                        ' table is ', fieldClass, 
+                        '. Converting to expected field type Date.')
           
           writeToLog(message = msg,type = 'Warning', fileConxn = logFile,
                      printToConsole = F,depth = logDepth + 1)
@@ -110,7 +113,7 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
         # all values starting with 'T', 'Y', or numbers greater than 0 will be
         # converted to True (1), all others will be default value of False (0)
         
-        if(fieldClass == 'numeric'){
+        if(!fieldClass %in% c('numeric', 'integer')){
           
           invalidRows <- which(!result$Table[, field] %in% c(0, 1))
           
@@ -150,8 +153,8 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
           if (invalidRowCount > 0) {
             
             msg <- paste0(invalidRowCount, ' values in ', field, 
-                          ' field of table ', tableName, 
-                          ' could not be identified as valid boolean fields.',
+                          ' field of ', tableName, 
+                          ' table could not be identified as valid boolean fields.',
                           ' They will be converted to default value of false.')
             
             writeToLog(message = msg, type = 'Warning', fileConxn = logFile, 
@@ -208,10 +211,12 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
   
   }
   
-  if (result$Errors + result$Warnings > 0) cat(paste0('\n', 
+  msg <- ''
+  
+  if (result$Errors + result$Warnings > 0) msg <- (paste0('\n', 
                                    paste0(rep(' ', logDepth),   collapse = ' ')))
   
-  cat('Completed.')
+  cat(paste0(msg, 'Completed.', collapse = ''), file = logFile, append = T)
   
   return(result)
   

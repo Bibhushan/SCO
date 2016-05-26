@@ -1,4 +1,6 @@
 
+cat(paste(Sys.time(), 'Started loading data', sep = ': '), 
+    file = 'ErrorLog.txt', append = F)
 
 runGenericTableChecks(fileSources, 'FileSources', dataDefinition, errorLog,logDepth = 1)
 
