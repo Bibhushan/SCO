@@ -3,8 +3,16 @@ source('readTableFromSource.R')
 source('writeToLog.R')
 source('matchFieldNames.R')
 source('getKeyFields.R')
+<<<<<<< HEAD
 source('checkPrimaryKeyFields.R')
 source('runGenericTableChecks.R')
+=======
+<<<<<<< HEAD
+source('checkPrimaryKeyFields.R')
+source('runGenericTableChecks.R')
+=======
+>>>>>>> c5e5327653cc8d56148ff54d2f834fc741a437a0
+>>>>>>> c9d3de9a7eee0b3bd8335064eb7357f25e77ad95
 
 log <- 'log.txt'
 
