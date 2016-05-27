@@ -5,6 +5,7 @@ source('matchFieldNames.R')
 source('getKeyFields.R')
 source('checkPrimaryKeyFields.R')
 source('runGenericTableChecks.R')
+source('dataConversionWarningHandler.R')
 
 file.create('ErrorLog.txt')
 

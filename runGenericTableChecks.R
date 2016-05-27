@@ -69,7 +69,12 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
           writeToLog(message = msg,type = 'Warning', fileConxn = logFile,
                      printToConsole = F,depth = depthPlusOne)
           
-          result$Table[, field] <- as.character(result$Table[, field])
+          result$Table[, field] <- tryCatch(as.character(result$Table[, field]),
+                                    warning = function(w) dataConversionWarningHandler(
+                                      fieldName = field, tableName = tableName, 
+                                      dataType = fieldClass, 
+                                      convertedType = 'character', 
+                                      logFile = errorLog, logDepth = depthPlusOne))
           
         }
         
@@ -86,7 +91,12 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
           
           result$Warnings <- result$Warnings + 1
           
-          result$Table[, field] <- as.numeric(result$Table[, field])
+          result$Table[, field] <- tryCatch(as.numeric(result$Table[, field]),
+                                       warning = function(w) dataConversionWarningHandler(
+                                         fieldName = field, tableName = tableName, 
+                                         dataType = fieldClass, 
+                                         convertedType = 'numeric', 
+                                         logFile = errorLog, logDepth = depthPlusOne))
           
         }
         
@@ -105,8 +115,13 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
           
           # currently only dd/mm/yyyy format is supported
           
-          result$Table[, field] <- as.POSIXct(as.Date(result$Table[, field],
-                                                      '%d/%m/%Y'))
+          result$Table[, field] <- tryCatch(as.POSIXct(as.Date(result$Table[, field],
+                                                      '%d/%m/%Y')),
+                                       warning = function(w) dataConversionWarningHandler(
+                                         fieldName = field, tableName = tableName, 
+                                         dataType = fieldClass, 
+                                         convertedType = 'POSIXct', 
+                                         logFile = errorLog, logDepth = depthPlusOne))
         }
         
       } else if (fieldType == 'boolean'){
@@ -145,8 +160,13 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
           # and convert all values which start from 'T' (True) or 'Yes' to 1 (True))
           # All other values are set to default value of 0 (False).
           
-          fieldValues <- tolower(substr(as.character(result$Table[, field]),
-                                start = 1, stop = 1))
+          fieldValues <- tryCatch(tolower(substr(as.character(result$Table[, field]),
+                                start = 1, stop = 1)),
+                             warning = function(w) dataConversionWarningHandler(
+                               fieldName = field, tableName = tableName, 
+                               dataType = fieldClass, 
+                               convertedType = 'character', 
+                               logFile = errorLog, logDepth = depthPlusOne))
           
           invalidRows <- which(!fieldValues %in% c('t', 'f', 'y', 'n'))
           
@@ -176,8 +196,8 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
         
       } else {
        
-        msg <- paste0('Invalid data type ', tableDef$DataType[row], ' for field ', 
-                     tableDef$FieldName[row], ' in table ', tableName, '.')
+        msg <- paste0('Invalid data type ', fieldType, ' for field ', 
+                     field, ' in table ', tableName, '.')
         
         writeToLog(message = msg,type = 'Error', 
                    fileConxn = logFile, printToConsole = T, logDepth + 1) 
