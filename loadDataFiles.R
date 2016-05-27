@@ -1,16 +1,5 @@
 
-source('readTableFromSource.R')
-source('writeToLog.R')
-source('matchFieldNames.R')
-source('getKeyFields.R')
-source('checkPrimaryKeyFields.R')
-source('runGenericTableChecks.R')
-
-log <- 'log.txt'
-
-errorLog <- 'ErrorLog.txt'
-
-logDepth = 0
+# this scripts needs following variables in environment: logDepth
 
 depthPlusOne <- logDepth + 1
 
@@ -21,7 +10,7 @@ FileSources <- read.csv('fileSources.csv', stringsAsFactors = F)
 
 tableCount <- nrow(FileSources)
 
-writeToLog('Completed', fileConxn = errorLog, printToConsole = T)
+writeToLog('Completed', fileConxn = errorLog, printToConsole = T, addNewLine = F)
 
 # instead of reading table name from the file sources 
 # we will add all tables to the environment using a for loop

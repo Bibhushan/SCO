@@ -14,6 +14,8 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
   
   writeToLog(msg, type = 'Message', fileConxn = logFile, printToConsole = T, logDepth)
   
+  depthPlusOne <- logDepth + 1
+  
   result <- list(Errors = 0, Warnings = 0, Table = table)
   
   tableDef <- dataDefinition[dataDefinition$TableName == tableName,]
@@ -24,10 +26,10 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
 
   if (defCount == 0){
     
-    msg <- paste0('No field definitions found for table', tableName, '.')
+    msg <- paste0('No field definitions found for table ', tableName, '.')
     
     writeToLog(message = msg, type = 'Error', fileConxn = logFile, 
-               printToConsole = T, depth = logDepth)
+               printToConsole = T, depth = depthPlusOne)
 
     result$Errors = 1
     
@@ -65,7 +67,7 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
                         '. Converting to expected field type String.')
           
           writeToLog(message = msg,type = 'Warning', fileConxn = logFile,
-                     printToConsole = F,depth = logDepth + 1)
+                     printToConsole = F,depth = depthPlusOne)
           
           result$Table[, field] <- as.character(result$Table[, field])
           
@@ -80,7 +82,7 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
                         '. Converting to expected field type Numeric.')
           
           writeToLog(message = msg,type = 'Warning', fileConxn = logFile,
-                     printToConsole = F,depth = logDepth + 1)
+                     printToConsole = F,depth = depthPlusOne)
           
           result$Warnings <- result$Warnings + 1
           
@@ -97,7 +99,7 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
                         '. Converting to expected field type Date.')
           
           writeToLog(message = msg,type = 'Warning', fileConxn = logFile,
-                     printToConsole = F,depth = logDepth + 1)
+                     printToConsole = F,depth = depthPlusOne)
           
           result$Warnings <- result$Warnings + 1
           
@@ -126,7 +128,7 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
                          '. Replacing them with default values.')
             
             writeToLog(message = msg, type = 'Warning', fileConxn = logFile, 
-                       printToConsole = F,depth = logDepth + 1)
+                       printToConsole = F,depth = depthPlusOne)
             
             result$Warnings <- result$Warnings + invalidRowCount
             
@@ -158,7 +160,7 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
                           ' They will be converted to default value of false.')
             
             writeToLog(message = msg, type = 'Warning', fileConxn = logFile, 
-                       printToConsole = F, depth = logDepth + 1)
+                       printToConsole = F, depth = depthPlusOne)
             
             result$Warnings <- result$Warnings + 1
             
@@ -201,7 +203,7 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
         result$Errors <- result$Errors + 
               checkPrimaryKeyFields(x = table[,fieldName], tableName = tableName, 
                                      fieldName = fieldName, logFile = logFile,
-                                     logDepth = logDepth + 1)
+                                     logDepth = depthPlusOne)
         
         
       

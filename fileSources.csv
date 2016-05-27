@@ -1,4 +1,5 @@
 TableName,FileName
+DataDefinition,DataDefinition.csv
 ModelSettings,data\ModelSettings.csv
 Demand,data\Demand.csv
 BOM,data\BOM.csv

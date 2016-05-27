@@ -40,3 +40,8 @@ TransportationLink,Period,FK,String,
 TransportationLink,Product,FK,String,
 TransportationLink,Mode,FK,String,
 TransportationLink,TransportRate,Input,Numeric,0
+DataDefinition,TableName,FK,,
+DataDefinition,FieldName,PK,,
+DataDefinition,FieldType,String,,
+DataDefinition,DataType,String,,
+DataDefinition,DefaultValue,,,
