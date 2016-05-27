@@ -6,12 +6,16 @@
 # depth: depth of the log
 
 # Edit: fileConxn was not working. Using file name instead
+# Edit: added the parameter to add the timestamp
 
 writeToLog <- function(message, type = 'Message', fileConxn, 
-                       printToConsole = T, depth=0){
+                       printToConsole = T, depth=0, addTimeStamp = F){
   
+    prefix <- '\n'
+    
+    if (addTimeStamp) prefix <- paste0(prefix, Sys.time(), ': ')
   
-  msg <- paste0('\n', paste(rep(' ', depth), collapse = ' '), type, ': ', message)
+    msg <- paste0(prefix, paste(rep(' ', depth), collapse = ' '), type, ': ', message)
   
   if (printToConsole) cat(msg)
   
