@@ -21,11 +21,9 @@ writeToLog <- function(message, type = 'Message', fileConxn,
     if (type != '') prefix <- paste0(prefix, type, ': ')
     
     msg <- paste0(prefix, message)
+
+    if (printToConsole) cat(msg)
   
-  if (printToConsole) cat(msg)
-  
-  #writeLines(msg, fileConxn)
-  
-  cat(msg, file = fileConxn, append = T)
+    cat(msg, file = fileConxn, append = T)
   
 }
