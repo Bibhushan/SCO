@@ -233,12 +233,17 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
   
   }
   
-  msg <- ''
+  msg <- 'Completed'
   
-  if (result$Errors + result$Warnings > 0) msg <- (paste0('\n', 
-                                   paste0(rep(' ', logDepth),   collapse = ' ')))
+  if (result$Errors + result$Warnings > 0) {
+    msg <- paste0('\n', paste0(rep(' ', logDepth),   collapse = ' '), 
+          msg, ' with ', result$Errors, ' errors and ', result$Warnings, ' warnings ' )
+  }
   
-  cat(paste0(msg, 'Completed.', collapse = ''), file = logFile, append = T)
+  msg <- paste0(msg, '.')
+  
+  writeToLog(message = msg, fileConxn = logFile, printToConsole = T, 
+             depth = logDepth, addNewLine = F)
   
   return(result)
   
