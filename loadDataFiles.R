@@ -6,7 +6,7 @@ depthPlusOne <- logDepth + 1
 writeToLog('Reading file sources...', fileConxn = errorLog, depth = logDepth,
            printToConsole = T, addTimeStamp = T)
 
-FileSources <- read.csv('fileSources.csv', stringsAsFactors = F)
+FileSources <- read.csv('FileSources.txt', stringsAsFactors = F)
 
 tableCount <- nrow(FileSources)
 

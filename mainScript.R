@@ -13,7 +13,7 @@ log <- 'log.txt'
 
 errorLog <- 'ErrorLog.txt'
 
-refCheckFile <- 'refCheckDef.csv'
+refCheckFile <- 'refCheckDef.txt'
 
 logDepth = 0
 
@@ -26,7 +26,9 @@ source('loadDataFiles.R')
 # run generic data checks on tables.
 # fileSources has been loaded by the script ran before
 
+# now check the data for valid field names and field types
+
 source('runDataChecks.R')
 
-# above script will check the data for valid field names and field types
+
 

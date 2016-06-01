@@ -1,0 +1,13 @@
+Customer,Product,Period,MaxDemand,MinDemand,SellingPrice,BackOrderCost,SatisfiedDemand
+Cust_1,A,Period001,24,2,10,1,
+Cust_2,A,Period001,11,5,10,1,
+Cust_1,B,Period001,11,7,15,1.5,
+Cust_2,B,Period001,16,10,15,1.5,
+Cust_1,A,Period002,16,5,10,1,
+Cust_2,A,Period002,15,1,10,1,
+Cust_1,B,Period002,28,1,15,1.5,
+Cust_2,B,Period002,15,10,15,1.5,
+Cust_1,A,Period003,23,8,10,1,
+Cust_2,A,Period003,14,8,10,1,
+Cust_1,B,Period003,19,7,15,1.5,
+Cust_2,B,Period003,11,5,15,1.5,
