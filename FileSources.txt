@@ -1,0 +1,14 @@
+TableName,FileName
+DataDefinition,DataDefinition.csv
+ModelSettings,data\ModelSettings.csv
+Demand,data\Demand.csv
+BOM,data\BOM.csv
+Period,data\Period.csv
+Process,data\Process.csv
+ProductAtFacility,data\ProductAtFacility.csv
+ProductAtFacilityInPeriod,data\ProductAtFacilityInPeriod.csv
+Product,data\Product.csv
+Site,data\Site.csv
+TransMode,data\TransMode.csv
+TransportationLane,data\TransportationLane.csv
+TransportationLink,data\TransportationLink.csv
