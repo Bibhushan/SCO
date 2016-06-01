@@ -1,26 +1,28 @@
 
-cat(paste(Sys.time(), 'Started loading data', sep = ': '), 
-    file = 'ErrorLog.txt', append = F)
+# make sure that the data table, file sources and data definitions are loaded
+# before this script is run
 
-runGenericTableChecks(fileSources, 'FileSources', dataDefinition, errorLog,logDepth = 1)
+writeToLog('Running generic data checks...', fileConxn = errorLog, 
+           printToConsole = T, addTimeStamp = T)
 
-runGenericTableChecks(modelSettings, 'ModelSettings', dataDefinition, errorLog,
-                      logDepth = 1)
+if (exists('FileSources')) {
+  
+  for (tbl in seq(1, tableCount)) {
+    
+    tableName <- FileSources$TableName[tbl]
+    
+    try(runGenericTableChecks(table = get(tableName), tableName = tableName, 
+                              dataDefinition = DataDefinition, logFile = errorLog, 
+                              logDepth = depthPlusOne))
+    
+  }
+  
+  
+} else {
+  
+  cat('\n Please run loadDataFiles.R before running this')
+  
+}
 
-runGenericTableChecks(products, 'Product', dataDefinition, errorLog,logDepth = 1)
-
-runGenericTableChecks(sites, 'Site', dataDefinition, errorLog, logDepth = 1)
-
-runGenericTableChecks(periods, 'Period', dataDefinition, errorLog, logDepth = 1)
-
-runGenericTableChecks(transModes, 'TransMode', dataDefinition, errorLog,logDepth = 1)
-
-runGenericTableChecks(boms, 'BOM', dataDefinition, errorLog,logDepth = 1)
-
-runGenericTableChecks(processes, 'Process', dataDefinition, errorLog,logDepth = 1)
-
-runGenericTableChecks(prodFacPer, 'ProductAtFacilityInPeriod', dataDefinition, 
-                      errorLog,logDepth = 1)
-
-runGenericTableChecks(transLinks, 'TransportationLink', dataDefinition, errorLog, 
-                      logDepth = 1)
+writeToLog('Completed.', fileConxn = errorLog, 
+           printToConsole = T, depth = logDepth)

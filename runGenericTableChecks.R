@@ -26,7 +26,7 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
 
   if (defCount == 0){
     
-    msg <- paste0('No field definitions found for table ', tableName, '.')
+    msg <- paste0('No field definitions found for ', tableName, ' table.')
     
     writeToLog(message = msg, type = 'Error', fileConxn = logFile, 
                printToConsole = T, depth = depthPlusOne)
@@ -139,8 +139,8 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
           if(invalidRowCount > 0){
            
             msg <- paste0(invalidRowCount, ' invalid rows found in ', field, 
-                         ' field for table ', tableName, 
-                         '. Replacing them with default values.')
+                         ' field for ', tableName, 
+                         ' table. Replacing them with default values.')
             
             writeToLog(message = msg, type = 'Warning', fileConxn = logFile, 
                        printToConsole = F,depth = depthPlusOne)
@@ -197,7 +197,7 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
       } else {
        
         msg <- paste0('Invalid data type ', fieldType, ' for field ', 
-                     field, ' in table ', tableName, '.')
+                     field, ' in ', tableName, ' table.')
         
         writeToLog(message = msg,type = 'Error', 
                    fileConxn = logFile, printToConsole = T, logDepth + 1) 

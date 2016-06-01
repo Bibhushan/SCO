@@ -13,6 +13,8 @@ log <- 'log.txt'
 
 errorLog <- 'ErrorLog.txt'
 
+refCheckFile <- 'refCheckDef.csv'
+
 logDepth = 0
 
 depthPlusOne <- logDepth + 1
@@ -24,26 +26,7 @@ source('loadDataFiles.R')
 # run generic data checks on tables.
 # fileSources has been loaded by the script ran before
 
-writeToLog('Running generic data checks...', fileConxn = errorLog, 
-           printToConsole = T, addTimeStamp = T)
+source('runDataChecks.R')
 
-if (exists('FileSources')) {
-  
-  for (tbl in seq(1, tableCount)) {
-    
-    tableName <- FileSources$TableName[tbl]
-    
-    try(runGenericTableChecks(table = get(tableName), tableName = tableName, 
-                              dataDefinition = DataDefinition, logFile = errorLog, 
-                              logDepth = depthPlusOne))
-    
-  }
-  
-} else {
-  
-  cat('\n Please run loadDataFiles.R before running this')
-  
-}
+# above script will check the data for valid field names and field types
 
-writeToLog('Completed.', fileConxn = errorLog, 
-           printToConsole = T, depth = logDepth)
