@@ -18,23 +18,26 @@ referentialIntegrityCheck <- function(x, y, logFile, logDepth = 0,
   
   y <- unique(y)
   
+  childFields <- names(x)
+  
   # we add an extra column to identify if the values present in y
   
-  y$match <- 1
+  x$match <- 1
   
   # using all.x in merge will populate all records in x. The records which
   # are not available in y will have the match value null
   
-  temp <- merge(x, y, all.x = T)
+  temp <- merge(x, y, all.y = T, by.x = childFields, by.y = names(y))
   
-  invalidData <- x[is.na(temp$match), ]
+  invalidData <- temp[is.na(temp$match), ]
   
   invalidRowCount <- nrow(invalidData)
   
   if (invalidRowCount > 0){
     
-    msg <- paste0(invalidRowCount, ' rows in ', childTable, ' table does not have corresponding records in their referenced ', 
-                  parentTable, ' table.')
+    msg <- paste0(invalidRowCount, ' rows in ', childTable, 
+                  ' table does not have corresponding records in its referenced parent table ', 
+                  parentTable, '.')
     
     writeToLog(message = msg, type = 'Error', fileConxn = logFile, 
                printToConsole = T, depth = logDepth)

@@ -6,6 +6,7 @@ source('getKeyFields.R')
 source('checkPrimaryKeyFields.R')
 source('runGenericTableChecks.R')
 source('dataConversionWarningHandler.R')
+source('referentialIntegrityCheck.R')
 
 file.create('ErrorLog.txt')
 
@@ -29,6 +30,10 @@ source('loadDataFiles.R')
 # now check the data for valid field names and field types
 
 source('runDataChecks.R')
+
+# now check the referential checks.
+
+source('runRefChecks.R')
 
 
 
