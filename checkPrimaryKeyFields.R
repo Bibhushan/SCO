@@ -15,8 +15,8 @@ checkPrimaryKeyFields <- function(x, tableName, fieldName,
   
   if (nullCount > 0) {
     
-    errorMessage <- paste('Null values found in field', fieldName, 
-                          'of table', tableName)
+    errorMessage <- paste0('Null values found in ', fieldName, 
+                          ' field of ', tableName, ' table.')
     
     writeToLog(errorMessage, type = 'Error', fileConxn = logFile,
                printToConsole = T)
@@ -31,8 +31,8 @@ checkPrimaryKeyFields <- function(x, tableName, fieldName,
   
   if (uniqueFieldsDiff > 0) {
     
-    errorMessage <- paste('Duplicate records found for primary key field', 
-                          fieldName, 'in table', tableName )
+    errorMessage <- paste0('Duplicate records found for primary key field', 
+                          fieldName, 'in ', tableName, ' table.' )
     
     writeToLog(errorMessage, type = 'Error', fileConxn = logFile,
                printToConsole = T)
