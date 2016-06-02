@@ -10,9 +10,10 @@
 runGenericTableChecks <- function(table, tableName, dataDefinition, 
                                   logFile = NULL, logDepth = 0){
   
-  msg <- paste('Running generic checks on', tableName, 'table...')
+  msg <- paste0('Running generic checks on ', tableName, ' table...')
   
-  writeToLog(msg, type = 'Message', fileConxn = logFile, printToConsole = T, logDepth)
+  writeToLog(message = msg,  fileConxn = logFile, 
+             printToConsole = T, depth = logDepth)
   
   depthPlusOne <- logDepth + 1
   
@@ -35,17 +36,17 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
     
   } else {
   
-    # Perform basic field checks on the fields in data table and 
-
     keyFields <- getKeyFields(tableDef$FieldName, tableDef$FieldType) 
     
+    # Perform basic field checks on the fields in data table and 
+
     res <- matchFieldNames(table, tableDef$FieldName, keyFields, tableName, 
-                           logFile, logDepth + 1)
+                           logFile, depthPlusOne)
     
     result$Errors = result$Errors + res$Errors
     result$Warnings = result$Warnings + res$Warnings
     
-    if (res$Errors == 0) result$Table <- res$Table
+    if (res$Errors + res$Warnings != 0) result$Table <- res$Table
         
     # check field type of data
     # convert to respective types if needed.
@@ -210,26 +211,39 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
     
     # Check all the primary keys
     
-    pkRows <- which(tableDef$fieldType == 'PK')
+    # Changing to check all key fields in one go.
+  
+    # we perform this check only if all key fields are populated in the table.  
     
-    pkCount <- length(pkRows)
+    if (sum(!names(table) %in% keyFields) == 0){
     
-    if (pkCount > 0) {
-      
-      for (row in pkRows) {
-      
-        fieldName <- tableDef$fieldName[row]
-        
         result$Errors <- result$Errors + 
-              checkPrimaryKeyFields(x = table[,fieldName], tableName = tableName, 
-                                     fieldName = fieldName, logFile = logFile,
-                                     logDepth = depthPlusOne)
+                        checkPrimaryKeyFields(table = table[, keyFields, drop = F], 
+                                 tableName = tableName, logFile = logFile, 
+                                 logDepth = depthPlusOne)
         
-        
-      
-      }
-      
     }
+    
+#     pkRows <- which(tableDef$fieldType == 'PK')
+#     
+#     pkCount <- length(pkRows)
+#     
+#     if (pkCount > 0) {
+#       
+#       for (row in pkRows) {
+#       
+#         fieldName <- tableDef$fieldName[row]
+#         
+#         result$Errors <- result$Errors + 
+#               checkPrimaryKeyFields(x = table[,fieldName], tableName = tableName, 
+#                                      fieldName = fieldName, logFile = logFile,
+#                                      logDepth = depthPlusOne)
+#         
+#         
+#       
+#       }
+#       
+#     }
   
   }
   

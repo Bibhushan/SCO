@@ -14,6 +14,6 @@ getKeyFields <- function(fieldNames, fieldTypes, onlyPK = F, onlyFK = F){
   
   if (onlyFK) return(FKs)
   
-  return(merge(PKs, FKs))
+  return(c(PKs, FKs))
   
 }
