@@ -1,0 +1,4 @@
+ChildTable,ChildField,ParentTable,ParentField
+DataDefinition,TableName,FileSources,TableName
+ProductAtFacility,Product,Product,Product
+ProductAtFacility,SiteName,Site,SiteName
