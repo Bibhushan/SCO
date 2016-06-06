@@ -118,7 +118,6 @@ if(childTableCount > 0){
     
     writeToLog('Completed.', fileConxn = errorLog, printToConsole = T, 
                depth = logDepth + 2)
-    
   }
 
 } else {
