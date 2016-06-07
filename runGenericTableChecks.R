@@ -92,12 +92,29 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
           
           result$Warnings <- result$Warnings + 1
           
-          result$Table[, field] <- tryCatch(as.numeric(result$Table[, field]),
+          temp <- result$Table[, field]
+          
+          tryCatch(temp <- as.numeric(result$Table[, field]),
                                        warning = function(w) dataConversionWarningHandler(
-                                         fieldName = field, tableName = tableName, 
+                                        fieldName = field, tableName = tableName, 
                                          dataType = fieldClass, 
                                          convertedType = 'numeric', 
                                          logFile = errorLog, logDepth = depthPlusOne))
+          
+          
+          result$Table[, field] <- temp
+          
+        }
+        
+        # convert all na values to default
+        
+        fieldIndex <- which(tableDef$FieldName == field)
+        
+        if(!is.na(tableDef$DefaultValue[fieldIndex]) && 
+           tableDef$FieldType[fieldIndex] == 'Input'){
+          
+          result$Table[is.na(result$Table[, field]), field] <- 
+            as.numeric(tableDef$DefaultValue[fieldIndex])
           
         }
         
@@ -183,7 +200,7 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
             writeToLog(message = msg, type = 'Warning', fileConxn = logFile, 
                        printToConsole = F, depth = depthPlusOne)
             
-            result$Warnings <- result$Warnings + 1
+            result$Warnings <- result$Warnings + invalidRowCount
             
             falseRows <- merge(invalidRows, which(fieldValues %in% c('f', 'n')))
             
@@ -251,7 +268,7 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
   
   if (result$Errors + result$Warnings > 0) {
     msg <- paste0('\n', paste0(rep(' ', logDepth),   collapse = ' '), 
-          msg, ' with ', result$Errors, ' errors and ', result$Warnings, ' warnings ' )
+          msg, ' with ', result$Errors, ' errors and ', result$Warnings, ' warnings' )
   }
   
   msg <- paste0(msg, '.')

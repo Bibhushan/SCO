@@ -8,6 +8,8 @@ source('runGenericTableChecks.R')
 source('dataConversionWarningHandler.R')
 source('referentialIntegrityCheck.R')
 
+library(lpSolveAPI)
+
 file.create('ErrorLog.txt')
 
 log <- 'log.txt'

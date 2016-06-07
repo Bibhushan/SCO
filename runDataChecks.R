@@ -11,9 +11,13 @@ if (exists('FileSources')) {
     
     tableName <- FileSources$TableName[tbl]
     
-    try(runGenericTableChecks(table = get(tableName), tableName = tableName, 
+    try({res <- runGenericTableChecks(table = get(tableName), tableName = tableName, 
                               dataDefinition = DataDefinition, logFile = errorLog, 
-                              logDepth = depthPlusOne))
+                              logDepth = depthPlusOne)
+        
+        if (res$Errors + res$Warnings > 0) assign(tableName, res$Table)})
+    
+    
     
   }
   

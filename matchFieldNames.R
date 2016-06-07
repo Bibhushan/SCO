@@ -77,6 +77,15 @@ matchFieldNames <- function(table, fieldNames, keyFields = NULL, tableName, logF
       
       result$Warnings <- result$Warnings + missingFieldCount
       
+      # add the missing columns with NA. 
+      # default values will be populated in these fields when running generic data checks
+      
+      for (missingField in missingFields){
+       
+        result[, missingField] <- NA 
+        
+      }
+      
     }
     
   }

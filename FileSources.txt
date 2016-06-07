@@ -5,10 +5,11 @@ Demand,data\Demand.txt
 BOM,data\BOM.txt
 Period,data\Period.txt
 Process,data\Process.txt
-ProductAtFacility,data\ProductAtFacility.txt
+ProcessAtFacilityInPeriod,data\ProcessAtFacilityInPeriod.txt
 ProductAtFacilityInPeriod,data\ProductAtFacilityInPeriod.txt
 Product,data\Product.txt
 Site,data\Site.txt
 TransMode,data\TransMode.txt
 TransportationLane,data\TransportationLane.txt
 TransportationLink,data\TransportationLink.txt
+ModelVariables,ModelVariables.txt
