@@ -7,9 +7,7 @@ writeToLog('Running referential data checks...', fileConxn = errorLog,
 
 # First, read the field definition file
 
-refCheckDefs <- read.csv('RefCheckDefinition.txt', stringsAsFactors = F)
-
-childTables <- unique(refCheckDefs$ChildTable)
+childTables <- unique(RefCheckDefinition$ChildTable)
 
 childTableCount <- length(childTables)
 
@@ -26,7 +24,7 @@ if(childTableCount > 0){
       
     if (exists(child)) {
       
-      tblDef <- refCheckDefs[refCheckDefs$ChildTable == child, ]
+      tblDef <- RefCheckDefinition[RefCheckDefinition$ChildTable == child, ]
       
       parentTables <- unique(tblDef$ParentTable)
       

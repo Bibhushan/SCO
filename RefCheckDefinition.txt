@@ -1,4 +1,13 @@
-ChildTable,ChildField,ParentTable,ParentField
-DataDefinition,TableName,FileSources,TableName
-ProductAtFacility,Product,Product,Product
-ProductAtFacility,SiteName,Site,SiteName
+ChildTable,ChildField,Set,ParentTable,ParentField
+DataDefinition,TableName,1,FileSources,TableName
+ProductAtFacility,Product,1,Product,Product
+ProductAtFacility,SiteName,1,Site,SiteName
+Demand,Customer,1,TransportationLink,Destination
+Demand,Product,1,TransportationLink,Product
+Demand,Period,1,TransportationLink,Period
+ProductAtFacilityInPeriod,Product,1,TransportationLink,Product
+ProductAtFacilityInPeriod,SiteName,1,TransportationLink,Origin
+ProductAtFacilityInPeriod,Period,1,TransportationLink,Period
+ProductAtFacilityInPeriod,Product,2,TransportationLink,Product
+ProductAtFacilityInPeriod,SiteName,2,TransportationLink,Destination
+ProductAtFacilityInPeriod,Period,2,TransportationLink,Period

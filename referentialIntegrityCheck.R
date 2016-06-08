@@ -27,7 +27,7 @@ referentialIntegrityCheck <- function(x, y, logFile, logDepth = 0,
   # using all.x in merge will populate all records in x. The records which
   # are not available in y will have the match value null
   
-  temp <- merge(x, y, all.y = T, by.x = childFields, by.y = names(y))
+  temp <- merge(x, y, all.x = T, by.x = childFields, by.y = names(y))
   
   invalidData <- temp[is.na(temp$match), ]
   

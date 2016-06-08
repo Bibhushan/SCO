@@ -134,7 +134,7 @@ runGenericTableChecks <- function(table, tableName, dataDefinition,
           # currently only dd/mm/yyyy format is supported
           
           result$Table[, field] <- tryCatch(as.POSIXct(as.Date(result$Table[, field],
-                                                      '%d/%m/%Y')),
+                                                      '%m/%d/%Y')),
                                        warning = function(w) dataConversionWarningHandler(
                                          fieldName = field, tableName = tableName, 
                                          dataType = fieldClass, 
