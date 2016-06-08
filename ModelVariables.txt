@@ -1,0 +1,9 @@
+VariableName,TableName,FieldName,CostField,LowerBound,UpperBound,CostMultiplier
+DemandMet,Demand,SatisfiedDemand,SellingPrice,MinDemand,MaxDemand,1
+Link_Flow,TransportationLink,Flow,TransportRate,MinFlow,MaxFlow,-1
+StartInv_SPT,ProductAtFacilityInPeriod,StartingInventory,,,,-1
+EndInv_SPT,ProductAtFacilityInPeriod,EndingInventory,InventoryHoldingCost,MinEndingInventory,MaxEndingInventory,-1
+Prodxn_SPT,ProductAtFacilityInPeriod,Production,,,,-1
+Consumption_SPT,ProductAtFacilityInPeriod,Consumption,,,,-1
+Shipping_SPT,ProductAtFacilityInPeriod,Shipping,,MinShipping,MaxShipping,-1
+Receiving_SPT,ProductAtFacilityInPeriod,Receiving,,MinReceiving,MaxReceiving,-1

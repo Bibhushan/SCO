@@ -13,3 +13,4 @@ TransMode,data\TransMode.txt
 TransportationLane,data\TransportationLane.txt
 TransportationLink,data\TransportationLink.txt
 ModelVariables,ModelVariables.txt
+RefCheckDefinition,RefCheckDefinition.txt
