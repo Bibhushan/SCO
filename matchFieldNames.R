@@ -82,7 +82,7 @@ matchFieldNames <- function(table, fieldNames, keyFields = NULL, tableName, logF
       
       for (missingField in missingFields){
        
-        result[, missingField] <- NA 
+        result$Table[, missingField] <- NA 
         
       }
       

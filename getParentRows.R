@@ -43,7 +43,7 @@ getParentRows <- function(childRow, childName, parentName, set = 1, RefCheckDefi
       
     } else {
       
-      msg <- paste0('Parent table ', parentTable, ' not defined for ', childName, 
+      msg <- paste0('Parent table ', parentName, ' not defined for ', childName, 
                     '. No parent rows could be fetched.')
       
       writeToLog(message = msg, type = 'Error', fileConxn = logFile, 
