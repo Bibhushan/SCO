@@ -11,3 +11,13 @@ ProductAtFacilityInPeriod,Period,1,TransportationLink,Period
 ProductAtFacilityInPeriod,Product,2,TransportationLink,Product
 ProductAtFacilityInPeriod,SiteName,2,TransportationLink,Destination
 ProductAtFacilityInPeriod,Period,2,TransportationLink,Period
+ProductAtFacilityInPeriod,Product,1,ProductAtFacility,Product
+ProductAtFacilityInPeriod,SiteName,1,ProductAtFacility,SiteName
+ProductAtFacilityInPeriod,SiteName,1,BOMAtFacilityInPeriod,SiteName
+ProductAtFacilityInPeriod,Product,1,BOMAtFacilityInPeriod,Product
+ProductAtFacilityInPeriod,Period,1,BOMAtFacilityInPeriod,Period
+BOMAtFacilityInPeriod,SiteName,1,ProcessAtFacilityInPeriod,SiteName
+BOMAtFacilityInPeriod,BOMName,1,ProcessAtFacilityInPeriod,BOMName
+BOMAtFacilityInPeriod,Period,1,ProcessAtFacilityInPeriod,Period
+
+

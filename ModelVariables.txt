@@ -7,3 +7,6 @@ Prodxn_SPT,ProductAtFacilityInPeriod,Production,,,,-1
 Consumption_SPT,ProductAtFacilityInPeriod,Consumption,,,,-1
 Shipping_SPT,ProductAtFacilityInPeriod,Shipping,,MinShipping,MaxShipping,-1
 Receiving_SPT,ProductAtFacilityInPeriod,Receiving,,MinReceiving,MaxReceiving,-1
+Handling_SPT,ProductAtFacilityInPeriod,Handling,,MinHandling,MaxHandling,-1
+Cycles_SBT,ProcessAtFacilityInPeriod,Cycles,CycleCost,MinCycles,MaxCycles,-1
+BOMUsage_SBPT,BOMAtFacilityInPeriod,BOMUsage,,,,-1

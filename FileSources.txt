@@ -5,7 +5,9 @@ Demand,data\Demand.txt
 BOM,data\BOM.txt
 Period,data\Period.txt
 Process,data\Process.txt
+BOMAtFacilityInPeriod,data\BOMAtFacilityInPeriod.txt
 ProcessAtFacilityInPeriod,data\ProcessAtFacilityInPeriod.txt
+ProductAtFacility,data\ProductAtFacility.txt
 ProductAtFacilityInPeriod,data\ProductAtFacilityInPeriod.txt
 Product,data\Product.txt
 Site,data\Site.txt
