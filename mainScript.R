@@ -10,6 +10,7 @@ source('referentialIntegrityCheck.R')
 source('getSanitisedValues.R')
 source('getParentRows.R')
 source('getParentValue.R')
+source('getKeyFieldsFromTable.R')
 
 library(lpSolveAPI)
 

@@ -222,7 +222,7 @@ consumptionSPTRows <- NULL
 
 BOMOutRows <- which(BOMAtFacilityInPeriod$Type == 'Output')
 
-if (nrow(tempBOMOut) > 0){
+if (length(BOMOutRows) > 0){
   
   tempBOM <- aggregate(formula = Type~SiteName+Product+Period, 
                        data = BOMAtFacilityInPeriod[BOMOutRows,], FUN = length)
@@ -235,7 +235,7 @@ if (nrow(tempBOMOut) > 0){
 
 BOMInRows <- which(BOMAtFacilityInPeriod$Type == 'Input')
 
-if (nrow(tempBOMIn) > 0) {
+if (length(BOMInRows) > 0) {
   
   tempBOM <- aggregate(formula = Type~SiteName+Product+Period, 
                        data = BOMAtFacilityInPeriod[BOMInRows, ], FUN = length)
