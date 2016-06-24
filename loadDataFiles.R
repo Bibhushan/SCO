@@ -87,5 +87,33 @@ if(duplicateTables > 0){
     
 }
 
-writeToLog('Completed', fileConxn = errorLog, printToConsole = T)
+# Populate Sources
+
+writeToLog('Populating Sources...', fileConxn = errorLog, depth = depthPlusOne)
+
+SPTCols <- c('SiteName', 'Product', 'Period')
+
+Sources <- unique(TransportationLink[, c('Destination', 'Product', 'Period')])
+
+names(Sources) <- SPTCols
+
+Sources <- unique(rbind(Sources, 
+                 unique(BOMAtFacilityInPeriod[BOMAtFacilityInPeriod$Type == 'Output', SPTCols])))
+  
+writeToLog('Completed.', fileConxn = errorLog, addNewLine = F)
+
+# Populate Sinks
+
+writeToLog('Populating Sinks...', fileConxn = errorLog, depth = depthPlusOne)
+
+Sinks <- unique(TransportationLink[, c('Origin', 'Product', 'Period')])
+
+names(Sources) <- SPTCols
+
+Sinks <- unique(rbind(Sources, 
+                        unique(BOMAtFacilityInPeriod[BOMAtFacilityInPeriod$Type != 'Output', SPTCols])))
+
+writeToLog('Completed.', fileConxn = errorLog, addNewLine = F)
+
+writeToLog('Completed', fileConxn = errorLog, depth = logDepth)
 
