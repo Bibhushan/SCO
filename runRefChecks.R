@@ -21,7 +21,8 @@ if(childTableCount > 0){
     writeToLog(message = msg, fileConxn = errorLog, printToConsole = T, 
                depth = depthPlusOne)
     
-      
+    errors <- 0
+    
     if (exists(child)) {
       
       tblDef <- RefCheckDefinition[RefCheckDefinition$ChildTable == child, ]
@@ -53,6 +54,8 @@ if(childTableCount > 0){
             writeToLog(message = msg, type = 'Error', fileConxn = errorLog, 
                        printToConsole = T, depth = depthPlusOne)
             
+            errors <- errors + 1
+            
             
           } else {
             
@@ -78,6 +81,8 @@ if(childTableCount > 0){
             writeToLog(message = msg, type = 'Error', fileConxn = errorLog, 
                        printToConsole = T, depth = depthPlusOne)
             
+            errors <- errors + 1
+            
             
           } else {
             
@@ -89,6 +94,9 @@ if(childTableCount > 0){
             
             res <- referentialIntegrityCheck(x = childTable, y = parentTable, 
                                                 errorLog, logDepth + 2, child, parent)
+            
+            errors <- errors + res$Errors 
+            
           } 
           
         } else {
@@ -99,6 +107,8 @@ if(childTableCount > 0){
           
           writeToLog(message = msg, type = 'Error', fileConxn = errorLog, 
                      printToConsole = T, depth = depthPlusOne)
+          
+          errors <- errors + 1
           
         }
         
@@ -112,10 +122,23 @@ if(childTableCount > 0){
       writeToLog(message = msg, type = 'Error', fileConxn = errorLog, 
                  printToConsole = T, depth = depthPlusOne)
       
+      errors <- errors + 1
+      
     }
     
-    writeToLog('Completed.', fileConxn = errorLog, printToConsole = T, 
-               depth = logDepth + 2)
+    if (errors > 0){
+    
+      writeToLog('Completed.', fileConxn = errorLog, printToConsole = T, 
+                 depth = logDepth + 1, addNewLine = T)
+      
+        
+    } else {
+    
+      writeToLog('Completed.', fileConxn = errorLog, printToConsole = T, 
+                 addNewLine = F)
+      
+    }
+    
   }
 
 } else {

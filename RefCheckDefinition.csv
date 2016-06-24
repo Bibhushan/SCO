@@ -5,12 +5,12 @@ ProductAtFacility,SiteName,1,Site,SiteName
 Demand,Customer,1,TransportationLink,Destination
 Demand,Product,1,TransportationLink,Product
 Demand,Period,1,TransportationLink,Period
-ProductAtFacilityInPeriod,Product,1,TransportationLink,Product
-ProductAtFacilityInPeriod,SiteName,1,TransportationLink,Origin
-ProductAtFacilityInPeriod,Period,1,TransportationLink,Period
-ProductAtFacilityInPeriod,Product,2,TransportationLink,Product
-ProductAtFacilityInPeriod,SiteName,2,TransportationLink,Destination
-ProductAtFacilityInPeriod,Period,2,TransportationLink,Period
+ProductAtFacilityInPeriod,Product,1,Sources,Product
+ProductAtFacilityInPeriod,SiteName,1,Sources,SiteName
+ProductAtFacilityInPeriod,Period,1,Sources,Period
+ProductAtFacilityInPeriod,Product,1,Sinks,Product
+ProductAtFacilityInPeriod,SiteName,1,Sinks,SiteName
+ProductAtFacilityInPeriod,Period,1,Sinks,Period
 ProductAtFacilityInPeriod,Product,1,ProductAtFacility,Product
 ProductAtFacilityInPeriod,SiteName,1,ProductAtFacility,SiteName
 ProductAtFacilityInPeriod,SiteName,1,BOMAtFacilityInPeriod,SiteName
@@ -19,5 +19,6 @@ ProductAtFacilityInPeriod,Period,1,BOMAtFacilityInPeriod,Period
 BOMAtFacilityInPeriod,SiteName,1,ProcessAtFacilityInPeriod,SiteName
 BOMAtFacilityInPeriod,BOMName,1,ProcessAtFacilityInPeriod,BOMName
 BOMAtFacilityInPeriod,Period,1,ProcessAtFacilityInPeriod,Period
-
-
+BOMAtFacilityInPeriod,SiteName,1,ProductAtFacilityInPeriod,SiteName
+BOMAtFacilityInPeriod,Product,1,ProductAtFacilityInPeriod,Product
+BOMAtFacilityInPeriod,Period,1,ProductAtFacilityInPeriod,Period

@@ -14,20 +14,20 @@ referentialIntegrityCheck <- function(x, y, logFile, logDepth = 0,
   
   # first extract the unique values from y itself 
   
-  x <- unique(x)
+  # x <- unique(x)
   
   y <- unique(y)
   
-  childFields <- names(x)
+  parentFields <- names(y)
   
   # we add an extra column to identify if the values present in y
   
-  x$match <- 1
+  y$match <- 1
   
   # using all.x in merge will populate all records in x. The records which
   # are not available in y will have the match value null
   
-  temp <- merge(x, y, all.x = T, by.x = childFields, by.y = names(y))
+  temp <- merge(x, y, all.x = T, by.x = names(x), by.y = parentFields)
   
   invalidData <- temp[is.na(temp$match), ]
   
