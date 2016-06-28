@@ -147,7 +147,10 @@ for (dem in demRange){
 writeToLog('Completed.', fileConxn = errorLog, 
            depth = depthPlusOne, addTimeStamp = T)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5c95ac6fa5bc959c903851d3b3996fcf78caf77b
 sptCount <- nrow(ProductAtFacilityInPeriod)
 sptRange <- seq(1, sptCount)
 
@@ -162,7 +165,11 @@ tempSPT <- merge(x = ProductAtFacilityInPeriod,
 
 tempSPT$prevSequence <- tempSPT$Sequence - 1
 
+<<<<<<< HEAD
 temp <- merge(x = tempSPT, y = tempSPT[, c('SiteName', 'Product', 'Sequence', 'EndInv_SPT_Index')],
+=======
+temp <- merge(x = tempSPT, y = tempSPT[tempSPT$prevSequence != 0, c('SiteName', 'Product', 'Sequence', 'EndInv_SPT_Index')],
+>>>>>>> 5c95ac6fa5bc959c903851d3b3996fcf78caf77b
               by.x = c('SiteName', 'Product', 'prevSequence'), by.y = c('SiteName', 'Product', 'Sequence'), all.x = T)
 
 prb <- txtProgressBar(max = sptCount, style = 3)
