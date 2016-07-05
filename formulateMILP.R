@@ -72,7 +72,10 @@ writeToLog('Completed.', fileConxn = errorLog,
 
 thisModel <- make.lp(nrow = 0, ncol = length(variableNames))
 
-lp.control(thisModel,sense='max')
+lp.control(thisModel,sense='max', 
+           presolve = c('bounds', 'rows', 'cols'),
+           simplextype = 'primal',
+           verbose = 'detailed')
 
 writeToLog('Assigning variable names...',fileConxn = errorLog, depth = depthPlusOne)
 
@@ -147,10 +150,6 @@ for (dem in demRange){
 writeToLog('Completed.', fileConxn = errorLog, 
            depth = depthPlusOne, addTimeStamp = T)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 5c95ac6fa5bc959c903851d3b3996fcf78caf77b
 sptCount <- nrow(ProductAtFacilityInPeriod)
 sptRange <- seq(1, sptCount)
 
@@ -165,11 +164,7 @@ tempSPT <- merge(x = ProductAtFacilityInPeriod,
 
 tempSPT$prevSequence <- tempSPT$Sequence - 1
 
-<<<<<<< HEAD
 temp <- merge(x = tempSPT, y = tempSPT[, c('SiteName', 'Product', 'Sequence', 'EndInv_SPT_Index')],
-=======
-temp <- merge(x = tempSPT, y = tempSPT[tempSPT$prevSequence != 0, c('SiteName', 'Product', 'Sequence', 'EndInv_SPT_Index')],
->>>>>>> 5c95ac6fa5bc959c903851d3b3996fcf78caf77b
               by.x = c('SiteName', 'Product', 'prevSequence'), by.y = c('SiteName', 'Product', 'Sequence'), all.x = T)
 
 prb <- txtProgressBar(max = sptCount, style = 3)
@@ -696,6 +691,8 @@ if (!res %in% c(0,9)){
   
   msg <- paste0(' Objective value is ', get.objective(thisModel))
   
+  solvedVarType <- 
+  
   if (res == 0){
     
     writeToLog(message = paste0('Model solved to optimality.',msg), type = 'Message', 
@@ -709,17 +706,80 @@ if (!res %in% c(0,9)){
     
   }
   
+  writeToLog('Getting Optimised Values...\n', fileConxn = errorLog, 
+             depth = depthPlusOne, addTimeStamp = T)
+  
   optValues <- get.variables(thisModel)
+  
+  writeToLog('Completed.', fileConxn = errorLog, addNewLine = F)
+  
+  writeToLog('Populating variable names...\n', fileConxn = errorLog, 
+             depth = depthPlusOne, addTimeStamp = T)
+  
+  solvedVarNames <- colnames(thisModel)
+  
+  cat('.')
+  
+  #temp <- colnames(thisModel)
+  
+  splitIndex <- regexpr("_[0-9]", solvedVarNames)
+  
+#   cat('.')
+#   
+#   solvedVarNames <- solvedVarNames[splitIndex != -1]
+#   
+#   cat('.')
+#   
+#   splitIndex <- splitIndex[splitIndex != -1]
+  
+  writeToLog('Completed.', fileConxn = errorLog, addNewLine = F)
+  
+  writeToLog('Getting variable names...\n', fileConxn = errorLog, 
+             depth = depthPlusOne, addTimeStamp = T)
+  
+  stopIndex <- splitIndex - 1
+  
+  cat('.')
+  
+  varNames <- substr(x = solvedVarNames, start = 1, stop =  stopIndex)
+  
+  writeToLog('Completed.', fileConxn = errorLog, addNewLine = F)
+  
+  writeToLog('Getting variable indices...\n', fileConxn = errorLog, 
+             depth = depthPlusOne, addTimeStamp = T)
+  
+  varIndices <- rep(-1, length(solvedVarNames))
+  
+  tempRows <- which(splitIndex != -1 )
+  
+  cat('.')
+  
+  startIndex <- splitIndex[tempRows] + 1
+  
+  cat('.')
+  
+  stopIndex <- nchar(solvedVarNames[tempRows])
+  
+  cat('.')
+  
+  varIndices[tempRows] <- as.integer(substr(solvedVarNames[tempRows], startIndex, stopIndex))
+  
+  writeToLog('Completed.', fileConxn = errorLog, addNewLine = F)
   
   for (varTypeIndex in seq(1, variableTypeCount)){
    
     tbl <- get(ModelVariables$TableName[varTypeIndex]) 
     
-    startIndex <- get(paste0(ModelVariables$VariableName[varTypeIndex], '_StartIndex'))
+#     startIndex <- get(paste0(ModelVariables$VariableName[varTypeIndex], '_StartIndex'))
+#     
+#     endIndex <- get(paste0(ModelVariables$VariableName[varTypeIndex], '_EndIndex'))
     
-    endIndex <- get(paste0(ModelVariables$VariableName[varTypeIndex], '_EndIndex'))
+#    varRows <- which(varNames == ModelVariables$VariableName[varTypeIndex])
+ 
+    tempRows <- which(varNames == ModelVariables$VariableName[varTypeIndex] & 
+                        varIndices > 0)
     
-    tbl[, ModelVariables$FieldName[varTypeIndex]] <- optValues[startIndex:endIndex]
+    tbl[varIndices[tempRows], ModelVariables$FieldName[varTypeIndex]] <- optValues[tempRows]
     
     assign(ModelVariables$TableName[varTypeIndex], tbl)
     
